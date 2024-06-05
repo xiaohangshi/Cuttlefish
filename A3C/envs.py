@@ -25,7 +25,7 @@ class DetectResult:
 
 
 class TrainEnv:
-    def __init__(self, train_path_name="pedestrian.avi", slot_time=1.0, test=False):
+    def __init__(self, train_path_name="pedestrian.mp4", slot_time=1.0, test=False):
 
         # Params of training
         self.TRAIN_DATA_ROOT_PATH = "../traindata/"

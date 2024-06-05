@@ -43,6 +43,9 @@ parser.add_argument('--no-shared', default=False,
                     help='use an optimizer without shared momentum.')
 
 if __name__ == '__main__':
+    # 设置启动方法为 spawn
+    mp.set_start_method('spawn', force=True)
+
     os.environ['OMP_NUM_THREADS'] = '1'
     # os.environ['CUDA_VISIBLE_DEVICES'] = "0"
     args = parser.parse_args()
