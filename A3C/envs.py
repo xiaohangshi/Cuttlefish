@@ -25,7 +25,7 @@ class DetectResult:
 
 
 class TrainEnv:
-    def __init__(self, train_path_name="pedestrian.mp4", slot_time=1.0, test=False):
+    def __init__(self, train_path_name="city_foot.mp4", slot_time=1.0, test=False):
 
         # Params of training
         self.TRAIN_DATA_ROOT_PATH = "../traindata/"
@@ -194,22 +194,23 @@ class TrainEnv:
 
     def estimateReward(self, delay, accuracy, fps, v):
 
-        reward = -self.a1 * delay + self.a2 * accuracy + self.a3 * (self.max_v / v) * (
+        reward = -self.a1 * delay + self.a2 * accuracy + self.a3 * (self.max_v / (v+1e-1)) * (
                 np.log(fps) / np.log(self.max_fps)) + self.bias
         # print(self.a1*delay,self.a2*accuracy,self.a3*(np.log(fps)/np.log(self.maxfps)))
-        return reward, delay, accuracy, (self.max_v / v) * (np.log(fps) / np.log(self.max_fps))
+        return reward, delay, accuracy, (self.max_v / (v+1e-1)) * (np.log(fps) / np.log(self.max_fps))
         # return reward,delay,accuracy,(self.maxv/v)*(np.log(fps)/np.log(self.maxfps))
 
     def ReadRessultFile(self, resolution_index=None):
         res = []
         for count in range(5):
-            t = self.train_data_file[count].readline()
-            acc = self.train_data_file[count].readline()
-            v = self.train_data_file[count].readline()
+            t = self.train_data_file[count].readline().strip()
+            acc = self.train_data_file[count].readline().strip()
+            v = self.train_data_file[count].readline().strip()
             if resolution_index == None:
                 res.append((float(t), float(acc), float(v)))
             else:
                 if count == resolution_index:
+                    assert t != ''
                     res = (float(t), float(acc), float(v))
             count += 1
         return res

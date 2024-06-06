@@ -63,6 +63,8 @@ def detect_video(model,framelist,opt,size):
                     y2=y2*size[1]/opt.img_size
                     boxes.append([int(x1),int(y1),int(x2-x1),int(y2-y1),int(cls_pred),cls_conf.item()])
                 img_detections.append(boxes)
+            else:
+                img_detections.append([])
         current_time = time.time()
         inference_time = datetime.timedelta(seconds=current_time - prev_time)
         print("\t+ Batch %d, Inference Time: %s" % (batch_i, inference_time))
